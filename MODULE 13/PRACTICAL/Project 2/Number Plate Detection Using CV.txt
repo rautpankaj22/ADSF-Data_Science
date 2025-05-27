@@ -1,0 +1,46 @@
+import cv2
+import numpy as np
+
+# Load the trained classifier for number plate detection
+cascade_path = r'C:\Users\ROHINI\Desktop\Number Plate Detection Using CV\haarcasscade.crdownload'
+plat_detector = cv2.CascadeClassifier(cascade_path)
+
+# Load the video
+video_path = r'C:\Users\ROHINI\Desktop\Number Plate Detection Using CV\sample.mp4'
+video = cv2.VideoCapture(video_path)
+
+if not video.isOpened():
+    print("Error reading video file")
+    exit()
+
+while True:
+    ret, frame = video.read()
+    if not ret:
+        break
+
+    # Convert to grayscale
+    gray_video = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+
+    # Detect license plates
+    plates = plat_detector.detectMultiScale(
+        gray_video, scaleFactor=1.2, minNeighbors=5, minSize=(25, 25)
+    )
+
+    # Loop through detections and blur the plate area
+    for (x, y, w, h) in plates:
+        cv2.rectangle(frame, (x, y), (x + w, y + h), (255, 0, 0), 2)
+        frame[y:y + h, x:x + w] = cv2.blur(frame[y:y + h, x:x + w], ksize=(10, 10))
+        cv2.putText(frame, 'License Plate', (x - 3, y - 3),
+                    fontFace=cv2.FONT_HERSHEY_COMPLEX, fontScale=0.6,
+                    color=(0, 0, 255), thickness=1)
+
+    # Display the output frame
+    cv2.imshow('Video', frame)
+
+    # Press 'q' to exit early
+    if cv2.waitKey(25) & 0xFF == ord("q"):
+        break
+
+# Release resources
+video.release()
+cv2.destroyAllWindows()
