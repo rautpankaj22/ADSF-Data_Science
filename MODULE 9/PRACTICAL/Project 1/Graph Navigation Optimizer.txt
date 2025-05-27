@@ -1,0 +1,12 @@
+import heapq
+
+def d(g,s):
+ r={v:1e9 for v in g};r[s]=0;q=[(0,s)]
+ while q:
+  d0,u=heapq.heappop(q)
+  for v,w in g[u]:
+   if r[v]>d0+w:r[v]=d0+w;heapq.heappush(q,(r[v],v))
+ return r
+
+g={'A':[('B',1),('C',4)],'B':[('C',2),('D',5)],'C':[('D',1)],'D':[]}
+print(d(g,'A'))
