@@ -1,0 +1,36 @@
+import pandas as pd
+from sklearn.preprocessing import MinMaxScaler
+import sweetviz as sv
+
+# Sample data
+data = {
+    'Math': [45, 89, 72, None, 55],
+    'Science': [78, 95, 80, 75, 65],
+    'English': [60, 65, None, 70, 90]
+}
+
+# Create DataFrame
+df = pd.DataFrame(data)
+print("🔹 Raw Data:")
+print(df)
+
+# Handle missing values
+df.fillna(df.mean(numeric_only=True), inplace=True)
+print("\n✅ After Handling Missing Values:")
+print(df)
+
+# Scale data
+scaler = MinMaxScaler()
+scaled_data = scaler.fit_transform(df)
+scaled_df = pd.DataFrame(scaled_data, columns=df.columns)
+print("\n📊 Scaled Data:")
+print(scaled_df)
+
+# Create Sweetviz report
+report = sv.analyze(scaled_df)
+
+# Save report to file
+report.show_html("sweetviz_report.html")
+
+print("\n📄 Sweetviz report generated successfully.")
+print("The report can be found in 'sweetviz_report.html'.")

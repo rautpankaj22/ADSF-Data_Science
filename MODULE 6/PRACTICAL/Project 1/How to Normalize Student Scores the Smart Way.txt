@@ -1,0 +1,31 @@
+import pandas as pd
+from sklearn.preprocessing import MinMaxScaler, StandardScaler, RobustScaler
+
+# Create a simple dataset: students' scores
+data = {
+    'Math': [45, 89, 72, 63, 55],
+    'Science': [78, 95, 80, 75, 65],
+    'English': [60, 65, 85, 70, 90]
+}
+
+df = pd.DataFrame(data)
+print("🔹 Original Scores:")
+print(df)
+
+# 1. Min-Max Scaling
+minmax = MinMaxScaler()
+df_minmax = pd.DataFrame(minmax.fit_transform(df), columns=df.columns)
+print("\n🔸 Min-Max Scaled Scores:")
+print(df_minmax)
+
+# 2. Standard Scaling (Z-score)
+standard = StandardScaler()
+df_standard = pd.DataFrame(standard.fit_transform(df), columns=df.columns)
+print("\n🔸 Standard Scaled Scores (Z-score):")
+print(df_standard)
+
+# 3. Robust Scaling
+robust = RobustScaler()
+df_robust = pd.DataFrame(robust.fit_transform(df), columns=df.columns)
+print("\n🔸 Robust Scaled Scores:")
+print(df_robust)
