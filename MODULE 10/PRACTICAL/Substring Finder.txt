@@ -1,0 +1,6 @@
+text = "banana"
+pattern = "ana"
+
+# Check if pattern exists in any suffix
+found = any(text[i:].startswith(pattern) for i in range(len(text)))
+print(f"Pattern '{pattern}' found:", found)
