@@ -1,0 +1,39 @@
+import pandas as pd
+import statistics
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+# Sample DataFrame
+df = pd.DataFrame({
+    "Month": ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
+    "Sales": [1000, 1200, 900, 1400, 1600, 1550],
+    "Region": ["North", "South", "East", "West", "North", "South"]
+})
+
+# 1. Summary using Pandas
+print("Basic Info:")
+print(df.describe())
+
+# 2. Central Tendency using Statistics
+mean_sales = statistics.mean(df["Sales"])
+median_sales = statistics.median(df["Sales"])
+
+print(f"\nMean Sales: {mean_sales}")
+print(f"Median Sales: {median_sales}")
+
+# 3. Frequency using Pandas
+print("\nSales by Region:")
+print(df["Region"].value_counts())
+
+# 4. Trend Line using Matplotlib
+plt.plot(df["Month"], df["Sales"], marker='o')
+plt.title("Monthly Sales Trend")
+plt.xlabel("Month")
+plt.ylabel("Sales")
+plt.grid(True)
+plt.show()
+
+# 5. Region-wise Sales using Seaborn
+sns.barplot(x="Region", y="Sales", data=df)
+plt.title("Sales by Region")
+plt.show()
