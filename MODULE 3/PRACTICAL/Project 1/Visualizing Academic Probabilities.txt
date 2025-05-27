@@ -1,0 +1,55 @@
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+# === DATA ===
+# Given data
+regular_pass = 40
+regular_fail = 10
+irregular_pass = 20
+irregular_fail = 30
+
+total_students = regular_pass + regular_fail + irregular_pass + irregular_fail
+total_pass = regular_pass + irregular_pass
+total_regular = regular_pass + regular_fail
+
+# === BAYES' THEOREM CALCULATION ===
+# P(Pass|Regular)
+P_pass_given_regular = regular_pass / total_regular
+
+# P(Regular)
+P_regular = total_regular / total_students
+
+# P(Pass)
+P_pass = total_pass / total_students
+
+# Bayes: P(Regular|Pass)
+P_regular_given_pass = (P_pass_given_regular * P_regular) / P_pass
+
+print("Probability a student is regular given they passed: {:.2f}".format(P_regular_given_pass))
+
+# === DATA VISUALIZATION ===
+# Prepare data for plotting
+categories = ['Regular', 'Irregular']
+pass_counts = [regular_pass, irregular_pass]
+fail_counts = [regular_fail, irregular_fail]
+
+# Bar chart - Pass/Fail comparison
+plt.figure(figsize=(8,5))
+bar_width = 0.4
+x = range(len(categories))
+
+plt.bar(x, pass_counts, width=bar_width, label='Passed', color='green')
+plt.bar([i + bar_width for i in x], fail_counts, width=bar_width, label='Failed', color='red')
+
+plt.xlabel('Study Habit')
+plt.ylabel('Number of Students')
+plt.title('Pass/Fail Distribution by Study Habit')
+plt.xticks([i + bar_width/2 for i in x], categories)
+plt.legend()
+plt.show()
+
+# Pie chart - Posterior Probability
+plt.figure(figsize=(5,5))
+plt.pie([P_regular_given_pass, 1 - P_regular_given_pass], labels=['Regular', 'Irregular'], autopct='%1.1f%%', colors=['blue', 'orange'])
+plt.title('P(Regular | Pass)')
+plt.show()
